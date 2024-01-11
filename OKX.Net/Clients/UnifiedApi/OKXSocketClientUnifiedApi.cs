@@ -277,6 +277,11 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
             var reqArg = hRequest.Arguments.FirstOrDefault();
             var resArg = JsonConvert.DeserializeObject<OKXSocketRequestArgument>(message["arg"]!.ToString());
 
+            if(resArg.Channel == "account")
+            {
+                resArg.InstrumentType = null;
+            }
+
             // Check Data
             if (reqArg.Channel == resArg!.Channel &&
                 reqArg.InstrumentFamily == resArg.InstrumentFamily &&

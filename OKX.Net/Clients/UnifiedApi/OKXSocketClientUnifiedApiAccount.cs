@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Sockets;
+using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Core;
@@ -38,7 +39,7 @@ public class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAccoun
         {
             Channel = "account",
             Asset = asset,
-            ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
+            ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }",
         });
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }
