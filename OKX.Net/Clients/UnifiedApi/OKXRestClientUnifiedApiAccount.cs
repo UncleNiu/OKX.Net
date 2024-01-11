@@ -44,8 +44,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     private const string Endpoints_V5_Asset_WithdrawalLightning = "api/v5/asset/withdrawal-lightning";
     private const string Endpoints_V5_Asset_WithdrawalCancel = "api/v5/asset/cancel-withdrawal";
     private const string Endpoints_V5_Asset_WithdrawalHistory = "api/v5/asset/withdrawal-history";
-    private const string Endpoints_V5_Asset_SavingBalance = "api/v5/asset/saving-balance";
-    private const string Endpoints_V5_Asset_SavingPurchaseRedempt = "api/v5/asset/purchase_redempt";
+    private const string Endpoints_V5_Asset_SavingBalance = "api/v5/finance/savings/balance";
+    private const string Endpoints_V5_Asset_SavingPurchaseRedempt = "api/v5/finance/savings/purchase-redempt";
     #endregion
 
     internal OKXRestClientUnifiedApiAccount(OKXRestClientUnifiedApi baseClient)
@@ -786,4 +786,32 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         return result.As(result.Data.Data!.FirstOrDefault());
     }
 
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXAccountIsolatedMarginMode>> SetIsolatedMarginModeAsync(OKXInstrumentType instumentType, OKXIsolatedMarginMode isolatedMarginMode, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("type", instumentType);
+        parameters.AddEnum("isoMode", isolatedMarginMode);
+
+        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAccountIsolatedMarginMode>>>(_baseClient.GetUri("api/v5/account/set-isolated-mode"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        if (!result.Success) return result.AsError<OKXAccountIsolatedMarginMode>(result.Error!);
+        if (result.Data.ErrorCode > 0) return result.AsError<OKXAccountIsolatedMarginMode>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+        return result.As(result.Data.Data.FirstOrDefault());
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXTransferInfo>> GetTransferAsync(string? transferId = null, string? clientTransferId = null, OKXTransferType? type = null, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptional("transId", transferId);
+        parameters.AddOptional("clientId", clientTransferId);
+        parameters.AddOptionalEnum("type", type);
+
+        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXTransferInfo>>>(_baseClient.GetUri("api/v5/asset/transfer-state"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+        if (!result.Success) return result.AsError<OKXTransferInfo>(result.Error!);
+        if (result.Data.ErrorCode > 0) return result.AsError<OKXTransferInfo>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+        return result.As(result.Data.Data.FirstOrDefault());
+    }
 }

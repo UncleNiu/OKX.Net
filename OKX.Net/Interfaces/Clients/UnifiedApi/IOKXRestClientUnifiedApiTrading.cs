@@ -371,4 +371,47 @@ public interface IOKXRestClientUnifiedApiTrading
         string? clientOrderId = null,
         bool? reduceOnly = null,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Get a specific algo order
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-details" /></para>
+    /// </summary>
+    /// <param name="algoId">Algo id, this or clientAlgoId should be provided</param>
+    /// <param name="clientAlgoId">Client algo order id, this or algoId should be provided</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXAlgoOrder>> GetAlgoOrderAsync(string? algoId = null, string? clientAlgoId = null, CancellationToken ct = default);
+
+    /// <summary>
+    /// Amend an incomplete order.
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-amend-algo-order" /></para>
+    /// </summary>
+    /// <param name="symbol">Instrument ID</param>
+    /// <param name="algoId">Algo ID</param>
+    /// <param name="clientAlgoId">Client Algo Order ID</param>
+    /// <param name="requestId">Request ID</param>
+    /// <param name="cancelOnFail">Cancel On Fail</param>
+    /// <param name="newQuantity">New Quantity</param>
+    /// <param name="newTakeProfitTriggerPrice">New take profit trigger price</param>
+    /// <param name="newStopLossTriggerPrice">New stop loss trigger price</param>
+    /// <param name="newTakeProfitOrderPrice">New take profit order price</param>
+    /// <param name="newStopLossOrderPrice">New stop loss order price</param>
+    /// <param name="newTakeProfitPriceTriggerType">New take profit price trigger type</param>
+    /// <param name="newStopLossPriceTriggerType">New stop loss price trigger type</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXAlgoOrderAmendResponse>> AmendAlgoOrderAsync(
+        string symbol,
+        string? algoId = null,
+        string? clientAlgoId = null,
+        string? requestId = null,
+        bool? cancelOnFail = null,
+        decimal? newQuantity = null,
+        decimal? newTakeProfitTriggerPrice = null,
+        decimal? newStopLossTriggerPrice = null,
+        decimal? newTakeProfitOrderPrice = null,
+        decimal? newStopLossOrderPrice = null,
+        OXKTriggerPriceType? newTakeProfitPriceTriggerType = null,
+        OXKTriggerPriceType? newStopLossPriceTriggerType = null,
+        CancellationToken ct = default);
 }

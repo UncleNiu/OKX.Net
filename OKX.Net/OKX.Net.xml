@@ -196,6 +196,12 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.ConvertDustAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetIsolatedMarginModeAsync(OKX.Net.Enums.OKXInstrumentType,OKX.Net.Enums.OKXIsolatedMarginMode,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetTransferAsync(System.String,System.String,System.Nullable{OKX.Net.Enums.OKXTransferType},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -397,6 +403,12 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderHistoryAsync(OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{OKX.Net.Enums.OKXAlgoOrderState},System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.AmendAlgoOrderAsync(System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi">
             <inheritdoc />
         </member>
@@ -577,6 +589,26 @@
         <member name="F:OKX.Net.Enums.OKXDepositType.NetworkDeposit">
             <summary>
             Deposit
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.OKXIsolatedMarginMode">
+            <summary>
+            Quick margin type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXIsolatedMarginMode.Automatic">
+            <summary>
+            Auto transfers
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXIsolatedMarginMode.Autonomy">
+            <summary>
+            Manual transfers (only supported in CONTRACTS)
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXIsolatedMarginMode.QuickMargin">
+            <summary>
+            Quick Margin Mode (only supported in MARGIN)
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.OKXLoanType">
@@ -767,6 +799,26 @@
         <member name="F:OKX.Net.Enums.OKXSelfTradePreventionMode.CancelBoth">
             <summary>
             Cancel both
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.OKXTransferStatus">
+            <summary>
+            Status of a transfer
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXTransferStatus.Success">
+            <summary>
+            Success
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXTransferStatus.Pending">
+            <summary>
+            Pending transfer
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXTransferStatus.Failed">
+            <summary>
+            Transfer failed
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.OXKTriggerPriceType">
@@ -1259,6 +1311,27 @@
             <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-small-assets-convert" /></para>
             </summary>
             <param name="assets">Assets to convert</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.SetIsolatedMarginModeAsync(OKX.Net.Enums.OKXInstrumentType,OKX.Net.Enums.OKXIsolatedMarginMode,System.Threading.CancellationToken)">
+            <summary>
+            Set isolated margin mode for the Margin or Contracts instrument type
+            <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-isolated-margin-trading-settings" /></para>
+            </summary>
+            <param name="instumentType">Instrument type, only Margin and Contracts supported</param>
+            <param name="isolatedMarginMode">Isolated margin mode</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetTransferAsync(System.String,System.String,System.Nullable{OKX.Net.Enums.OKXTransferType},System.Threading.CancellationToken)">
+            <summary>
+            Get info on a transfer
+            <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-funds-transfer-state" /></para>
+            </summary>
+            <param name="transferId">Transfer id, either this or clientTransferId needs to be provided</param>
+            <param name="clientTransferId">Client transfer id, either this or transferId needs to be provided</param>
+            <param name="type">The type of transfer</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -2118,6 +2191,36 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get a specific algo order
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-details" /></para>
+            </summary>
+            <param name="algoId">Algo id, this or clientAlgoId should be provided</param>
+            <param name="clientAlgoId">Client algo order id, this or algoId should be provided</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.AmendAlgoOrderAsync(System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Threading.CancellationToken)">
+            <summary>
+            Amend an incomplete order.
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-amend-algo-order" /></para>
+            </summary>
+            <param name="symbol">Instrument ID</param>
+            <param name="algoId">Algo ID</param>
+            <param name="clientAlgoId">Client Algo Order ID</param>
+            <param name="requestId">Request ID</param>
+            <param name="cancelOnFail">Cancel On Fail</param>
+            <param name="newQuantity">New Quantity</param>
+            <param name="newTakeProfitTriggerPrice">New take profit trigger price</param>
+            <param name="newStopLossTriggerPrice">New stop loss trigger price</param>
+            <param name="newTakeProfitOrderPrice">New take profit order price</param>
+            <param name="newStopLossOrderPrice">New stop loss order price</param>
+            <param name="newTakeProfitPriceTriggerType">New take profit price trigger type</param>
+            <param name="newStopLossPriceTriggerType">New stop loss price trigger type</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi">
             <summary>
             Unified API
@@ -2896,6 +2999,16 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountGreeksType.GreeksType">
             <summary>
             Greeks type
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXAccountIsolatedMarginMode">
+            <summary>
+            Isolated margin mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountIsolatedMarginMode.PositionMode">
+            <summary>
+            Isolated margin mode
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXClosingPosition">
@@ -4270,6 +4383,56 @@
         <member name="P:OKX.Net.Objects.Funding.OKXSavingBalance.PendingAmount">
             <summary>
             Pending amount
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Funding.OKXTransferInfo">
+            <summary>
+            Transfer info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.TransferId">
+            <summary>
+            Transfer id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.From">
+            <summary>
+            From account
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.To">
+            <summary>
+            To account
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.ClientId">
+            <summary>
+            Client id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.Type">
+            <summary>
+            Type of transfer
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.SubAccountName">
+            <summary>
+            Name of the sub account
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.Status">
+            <summary>
+            Type of transfer
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Funding.OKXTransferResponse">
@@ -6427,6 +6590,41 @@
         <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.QuickMarginType">
             <summary>
             Quick Margin type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.CostPriceSlEnabled">
+            <summary>
+            Whether to enable Cost-price SL. Only applicable to SL order of split TPs. false: disable, the default value, true: Enable “Cost-price SL”
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse">
+            <summary>
+            Order amend response
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse.RequestId">
+            <summary>
+            Request id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse.Message">
+            <summary>
+            Message
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXAlgoOrderRequest">
